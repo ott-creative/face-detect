@@ -3,11 +3,12 @@
     // width to the value defined here, but the height will be
     // calculated based on the aspect ratio of the input stream.
 
-    var width = window.screen.width * 1.2;    // We will scale the photo width to this
+    //var width = window.screen.width * 1.2;    // We will scale the photo width to this
     //var width = 640;
+    var height = window.screen.height * 0.8;
     console.log("width: " + width);
 
-    var height = 0;     // This will be computed based on the input stream
+    var width = 0;     // This will be computed based on the input stream
 
     // |streaming| indicates whether or not we're currently streaming
     // video from the camera. Obviously, we start at false.
@@ -56,7 +57,7 @@
             //net_tiny.loadFromUri('models'),
             //net_landMark.loadFromUri('models')
             //modelLoadTiny()
-        ]).then(startup).catch(err => console.log(err));
+        ]).then(startup).catch(err => alert(err));
     }
 
     async function modelLoadTiny() {
@@ -87,8 +88,9 @@
         video.addEventListener('canplay', function (ev) {
             if (!streaming) {
                 console.log("video size:" + video.videoWidth + "x" + video.videoHeight);
-                height = video.videoHeight / (video.videoWidth / width);
+                //height = video.videoHeight / (video.videoWidth / width);
                 //height = window.screen.height * 0.9;
+                width = video.videoWidth / (video.videoHeight / height);
 
                 // Firefox currently has a bug where the height can't be read from
                 // the video, so we will make assumptions if this happens.
@@ -153,7 +155,7 @@
                 const resizedDetections = faceapi.resizeResults(detection, displaySize)
                 face_canvas.getContext('2d').clearRect(0, 0, face_canvas.width, face_canvas.height)
                 faceapi.draw.drawDetections(face_canvas, resizedDetections)
-                //faceapi.draw.drawFaceLandmarks(face_canvas, resizedDetections)
+                faceapi.draw.drawFaceLandmarks(face_canvas, resizedDetections)
                 //faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
             }
         }, 100)
@@ -178,6 +180,8 @@
     // other changes before drawing it.
 
     function takePicture() {
+        // disable video, enable static pic
+        disableFaceDetection();
         clearPhoto();
         var context = photo_canvas.getContext('2d');
         photo_canvas.width = width;
@@ -189,8 +193,7 @@
         photo.setAttribute('src', data);
         photo.setAttribute('width', window.screen.width * 0.9);
 
-        // disable video, enable static pic
-        disableFaceDetection();
+
         output.style.display = "block";
     }
 
