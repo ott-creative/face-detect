@@ -25,6 +25,7 @@
     var output = null
     var face_detector = null;
     var face_canvas = null;
+    var is_scan = false;
 
     //const net_tiny = new faceapi.TinyFaceDetector();
     //const net_landMark = new faceapi.FaceLandmark68Net();
@@ -128,20 +129,32 @@
     }
 
     function disableFaceDetection() {
+        is_scan = false;
+        video.pause();
         video.style.display = "none";
         document.getElementById('faceapi-canvas').style.display = "none";
         clearInterval(face_detector);
+        face_detector = undefined;
     }
 
     function enableFaceDetection() {
+        is_scan = true;
+        console.log("enableFaceDetection");
         output.style.display = "none";
         video.style.display = "block";
+        video.play();
         document.getElementById('faceapi-canvas').style.display = "block";
         const displaySize = { width: video.width, height: video.height }
         console.log("displaySize: ", displaySize);
         faceapi.matchDimensions(face_canvas, displaySize)
+        var success_detect_count = 0;
 
         face_detector = setInterval(async () => {
+            if (!is_scan) {
+                clearInterval(face_detector);
+                return;
+            }
+
             //const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
             //const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
             const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
@@ -150,9 +163,14 @@
             if (detection) {
                 //console.log("detection: ", detection.detection._score);
                 if (detection.detection._score > 0.96) {
-                    console.log("detection: ", detection.detection._score);
+                    success_detect_count += 1;
+                    console.log("detection: ", detection.detection._score, success_detect_count);
                     // should take photo here
-                    takePicture();
+                    if (success_detect_count >= 3) {
+                        takePicture();
+                    }
+                } else {
+                    success_detect_count = 0;
                 }
                 //const resizedDetections = faceapi.resizeResults(detections, displaySize)
                 const resizedDetections = faceapi.resizeResults(detection, displaySize)
@@ -161,7 +179,7 @@
                 faceapi.draw.drawFaceLandmarks(face_canvas, resizedDetections)
                 //faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
             }
-        }, 100)
+        }, 500)
     }
 
     // Fill the photo with an indication that none has been
@@ -198,6 +216,7 @@
 
 
         output.style.display = "block";
+        console.log("take picture done");
     }
 
     // Set up our event listener to run the startup process
