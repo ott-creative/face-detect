@@ -5,7 +5,7 @@
 
     //var width = window.screen.width * 1.2;    // We will scale the photo width to this
     //var width = 640;
-    var height = window.screen.height * 0.8;
+    var height = window.screen.height * 0.7;
     console.log("width: " + width);
 
     var width = 0;     // This will be computed based on the input stream
@@ -109,10 +109,13 @@
 
         video.addEventListener('playing', () => {
             console.log("video playing...");
-            face_canvas = faceapi.createCanvasFromMedia(video)
-            face_canvas.id = "faceapi-canvas";
+            if (!face_canvas) {
+                face_canvas = faceapi.createCanvasFromMedia(video)
+                face_canvas.id = "faceapi-canvas";
 
-            document.body.append(face_canvas)
+
+                document.body.append(face_canvas)
+            }
 
             enableFaceDetection();
         })
@@ -189,7 +192,7 @@
         context.drawImage(video, 0, 0, width, height);
 
         var data = photo_canvas.toDataURL('image/png');
-        console.log("data: ", data);
+        //console.log("data: ", data);
         photo.setAttribute('src', data);
         photo.setAttribute('width', window.screen.width * 0.9);
 
