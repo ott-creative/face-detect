@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take Face Photo</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script defer src="face-api.js"></script>
+    <script defer src="face.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            padding-top: 20px;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            background-color: rgb(150, 146, 146);
+            /*align-items: center;8/
+            flex-wrap: wrap;
+        }
+
+        #video {
+            /*border: 1px solid black;
+            box-shadow: 2px 2px 3px black;*/
+            /*width: 640px;*/
+            /*height: 240px;*/
+        }
+
+        #photo {
+            /*border: 1px solid black;
+            box-shadow: 2px 2px 3px black;*/
+            /*width: 320px;*/
+            /*height: 240px;*/
+        }
+
+        #canvas-photo {
+            display: none;
+        }
+
+        .camera {
+            /*width: 340px;*/
+            /*display: inline-block;*/
+        }
+
+        .output {
+            display: none;
+            margin: auto;
+        }
+
+        #startbutton {
+            display: block;
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            bottom: 32px;
+            background-color: rgba(0, 150, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
+            font-size: 18px;
+            font-family: "Lucida Grande", "Arial", sans-serif;
+            color: rgba(255, 255, 255, 1.0);
+            width: 100px;
+            text-align: center;
+        }
+
+        .contentarea {
+            font-size: 16px;
+            font-family: "Lucida Grande", "Arial", sans-serif;
+            /*width: 760px;*/
+        }
+
+        canvas {
+            position: absolute;
+        }
+
+        .cover {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 80%;
+            height: 100%;
+            /*background-color: #000;*/
+            z-index: 999;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contentarea">
+        <div class="camera">
+            <video id="video" autoplay muted playsinline>Loading...</video>
+            <!--<button id="startbutton">Take photo</button>-->
+        </div>
+        <div class="output" id="output">
+            <img id="photo">
+            <div id="startbutton">Retake</div>
+        </div>
+
+    </div>
+    <br />
+    <canvas id="canvas-photo">
+    </canvas>
+    <!--<div class="output">
+        <img id="photo">
+    </div>-->
+    <!--<div class="cover" id="cover"></div>-->
+</body>
+
+</html>
