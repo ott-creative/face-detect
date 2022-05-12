@@ -6,7 +6,8 @@
     //var width = window.screen.width * 1.2;    // We will scale the photo width to this
     //var width = 640;
     var height = window.screen.height * 0.7;
-    console.log("width: " + width);
+    //var height = 128;
+    console.log("height: " + height);
 
     var width = 0;     // This will be computed based on the input stream
 
